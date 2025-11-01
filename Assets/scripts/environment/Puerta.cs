@@ -5,11 +5,22 @@ public class Puerta : MonoBehaviour, ISeleccionable
 {
     private bool isInteracting = false;
     private bool isDoorOpen = false;
-    private float rotationDuration = 0.5f;
+    private float rotationDuration = 0.5f;0
     public Transform targetRotation;
     [SerializeField] private bool canBeSelected = false;
+    [SerializeField] private AudioClip interactionSound;
+    private AudioSource audioSource;
 
     public bool CanBeSelected => canBeSelected;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
 
     public void Seleccionar()
     {
@@ -27,6 +38,7 @@ public class Puerta : MonoBehaviour, ISeleccionable
             return;
 
         isInteracting = true;
+        PlayInteractionSound();
 
         // Determine rotation based on door state
         float rotationAmount = isDoorOpen ? -90f : 90f;
@@ -38,7 +50,6 @@ public class Puerta : MonoBehaviour, ISeleccionable
             isDoorOpen = !isDoorOpen;
             isInteracting = false;});
     }
-
 
     public void OnDragStart()
     {
@@ -53,5 +64,22 @@ public class Puerta : MonoBehaviour, ISeleccionable
     public void OnDragEnd()
     {
         Debug.Log("Puerta drag ended");
+    }
+
+    private void PlayInteractionSound()
+    {
+        if (audioSource != null && interactionSound != null)
+        {
+            audioSource.PlayOneShot(interactionSound);
+        }
+        else if (interactionSound == null)
+        {
+            Debug.LogWarning("Puerta has no interaction sound assigned");
+        }
+    }
+
+    public void SetInteractionSound(AudioClip clip)
+    {
+        interactionSound = clip;
     }
 }
