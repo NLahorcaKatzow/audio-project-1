@@ -5,7 +5,7 @@ public class Puerta : MonoBehaviour, ISeleccionable
 {
     private bool isInteracting = false;
     private bool isDoorOpen = false;
-    private float rotationDuration = 0.5f;0
+    private float rotationDuration = 0.5f;
     public Transform targetRotation;
     [SerializeField] private bool canBeSelected = false;
     [SerializeField] private AudioClip interactionSound;
