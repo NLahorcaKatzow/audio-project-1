@@ -8,18 +8,15 @@ public class Puerta : MonoBehaviour, ISeleccionable
     private float rotationDuration = 0.5f;
     public Transform targetRotation;
     [SerializeField] private bool canBeSelected = false;
-    [SerializeField] private AudioClip interactionSound;
-    private AudioSource audioSource;
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
+    [SerializeField] private string mixerOutput = "SFX";
 
     public bool CanBeSelected => canBeSelected;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
+        // The local AudioSource component is removed, so this block is no longer needed.
     }
 
     public void Seleccionar()
@@ -68,18 +65,11 @@ public class Puerta : MonoBehaviour, ISeleccionable
 
     private void PlayInteractionSound()
     {
-        if (audioSource != null && interactionSound != null)
+        AudioClip soundToPlay = isDoorOpen ? closeSound : openSound;
+        if (soundToPlay != null)
         {
-            audioSource.PlayOneShot(interactionSound);
-        }
-        else if (interactionSound == null)
-        {
-            Debug.LogWarning("Puerta has no interaction sound assigned");
+            AudioManager.GetInstance().PlaySoundAt(soundToPlay, transform.position, mixerOutput);
         }
     }
 
-    public void SetInteractionSound(AudioClip clip)
-    {
-        interactionSound = clip;
-    }
 }

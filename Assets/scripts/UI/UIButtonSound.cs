@@ -3,24 +3,15 @@ using UnityEngine;
 public class UIButtonSound : MonoBehaviour
 {
     [SerializeField] private AudioClip buttonSound;
-    private AudioSource audioSource;
-
-    private void Start()
-    {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-    }
+    [SerializeField] private string mixerOutput = "UI";
 
     public void PlayButtonSound()
     {
-        if (audioSource != null && buttonSound != null)
+        if (buttonSound != null)
         {
-            audioSource.PlayOneShot(buttonSound);
+            AudioManager.GetInstance().PlaySoundAt(buttonSound, transform.position, mixerOutput, true);
         }
-        else if (buttonSound == null)
+        else
         {
             Debug.LogWarning("Button sound not assigned to " + gameObject.name);
         }
