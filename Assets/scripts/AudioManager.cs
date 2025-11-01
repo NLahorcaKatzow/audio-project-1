@@ -165,9 +165,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Vector3 audioPosition = isUI ? Camera.main.transform.position : position;
-
-        AudioSource audioSource = Instantiate(audioSourcePrefab, audioPosition, Quaternion.identity);
+        AudioSource audioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity);
         audioSource.clip = clip;
         audioSource.spatialBlend = isUI ? 0f : 1f;
 
@@ -206,9 +204,7 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        Vector3 audioPosition = isUI ? Camera.main.transform.position : position;
-
-        AudioSource audioSource = Instantiate(audioSourcePrefab, audioPosition, Quaternion.identity);
+        AudioSource audioSource = Instantiate(audioSourcePrefab, position, Quaternion.identity);
         audioSource.clip = clip;
         audioSource.spatialBlend = isUI ? 0f : 1f;
         audioSource.maxDistance = maxDistance;
@@ -229,6 +225,7 @@ public class AudioManager : MonoBehaviour
             }
         }
 
+        lastAudioSource = audioSource;
         audioSource.Play();
         Destroy(audioSource.gameObject, clip.length);
     }
