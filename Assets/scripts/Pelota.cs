@@ -48,7 +48,7 @@ public class Pelota : SelectableObject
             float normalizedVelocity = Mathf.Clamp01(impactVelocity / maxVelocityForVolume);
             float volume = Mathf.Lerp(minImpactVolume, maxImpactVolume, normalizedVelocity);
 
-            AudioManager.GetInstance().PlaySoundAt(bounceSound, transform.position, mixerOutput, false);
+            AudioManager.GetInstance().PlaySoundAtDistance(bounceSound, transform.position, 10f, mixerOutput, false);
             AudioManager.GetInstance().SetLastAudioVolume(volume);
         }
     }

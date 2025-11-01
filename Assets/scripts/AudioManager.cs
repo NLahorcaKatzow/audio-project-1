@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private Slider masterVolumeSlider;
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
+    [SerializeField] private Slider uiVolumeSlider;
     [SerializeField] private GameObject pauseUIPanel;
     [SerializeField] private AudioSource audioSourcePrefab;
     private static AudioManager instance;
@@ -73,6 +74,11 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("SFX Volume Slider not assigned to AudioManager!");
         }
+        if (uiVolumeSlider != null)
+        {
+            uiVolumeSlider.onValueChanged.AddListener(OnUIVolumeChanged);
+            uiVolumeSlider.value = 1f;
+        }
     }
 
     private void OnMasterVolumeChanged(float value)
@@ -96,6 +102,14 @@ public class AudioManager : MonoBehaviour
         if (audioMixer != null)
         {
             audioMixer.SetFloat("VolumeSFX", value != 0 ? Mathf.Log10(value) * 20 : -80f);
+        }
+    }
+
+    private void OnUIVolumeChanged(float value)
+    {
+        if (audioMixer != null)
+        {
+            audioMixer.SetFloat("VolumeUI", value != 0 ? Mathf.Log10(value) * 20 : -80f);
         }
     }
 

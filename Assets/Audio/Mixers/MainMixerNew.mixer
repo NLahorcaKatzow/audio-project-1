@@ -64,6 +64,8 @@ AudioMixerController:
     name: VolumeMusic
   - guid: ee6676e63b286b942984df5aa803ebfa
     name: VolumeSFX
+  - guid: c81a849c19d3afc4f90ea75c770e122b
+    name: VolumeUI
   m_AudioMixerGroupViews:
   - guids:
     - b229e34081e7f0546a7c2260b708779c
