@@ -89,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
     private float sprintBarHeight;
     private bool isSprintCooldown = false;
     private float sprintCooldownReset;
+    private bool FinishGame = false;
 
     #endregion
 
@@ -198,6 +199,21 @@ public class FirstPersonController : MonoBehaviour
         #endregion
     }
 
+    public void DisableCameraMovement()
+    {
+        cameraCanMove = false;
+        playerCanMove = false;
+        Cursor.lockState = CursorLockMode.None;
+        FinishGame = true;
+    }
+
+    public void EnableCameraMovement()
+    {
+        cameraCanMove = true;
+        playerCanMove = true;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     float camRotation;
 
     private void Update()
@@ -221,7 +237,7 @@ public class FirstPersonController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
         // Control camera movement
-        if (cameraCanMove)
+        if (cameraCanMove && !FinishGame)
         {
             yaw = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * mouseSensitivity;
 
@@ -387,7 +403,7 @@ public class FirstPersonController : MonoBehaviour
     {
         #region Movement
 
-        if (playerCanMove && !AudioManager.GetInstance().IsPauseUIActive())
+        if (playerCanMove && !AudioManager.GetInstance().IsPauseUIActive() && !FinishGame)
         {
             // Calculate how fast we should be moving
             Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
